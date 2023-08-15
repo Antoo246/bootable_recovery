@@ -49,8 +49,8 @@
 #include "recovery_ui/ui.h"
 
 enum DirectRenderManager {
-    DRM_INNER,
-    DRM_OUTER,
+  DRM_INNER,
+  DRM_OUTER,
 };
 
 // Return the current time as a double (including fractions of a second).
@@ -67,16 +67,15 @@ int Menu::selection() const {
   return selection_;
 }
 
-TextMenu::TextMenu(bool wrappable, size_t max_length,
-                   const std::vector<std::string>& headers, const std::vector<std::string>& items,
-                   size_t initial_selection, int char_height, const DrawInterface& draw_funcs)
+TextMenu::TextMenu(bool wrappable, size_t max_length, const std::vector<std::string>& headers,
+                   const std::vector<std::string>& items, size_t initial_selection, int char_height,
+                   const DrawInterface& draw_funcs)
     : Menu(initial_selection, draw_funcs),
       wrappable_(wrappable),
       calibrated_height_(false),
       max_item_length_(max_length),
       text_headers_(headers),
       char_height_(char_height) {
-
   size_t items_count = items.size();
   for (size_t i = 0; i < items_count; ++i) {
     text_items_.emplace_back(items[i].substr(0, max_item_length_));
@@ -122,7 +121,7 @@ int TextMenu::Select(int sel) {
   CHECK_LE(ItemsCount(), static_cast<size_t>(std::numeric_limits<int>::max()));
   int count = ItemsCount();
 
-  int min = IsMain() ? 0 : -1; // -1 is back arrow
+  int min = IsMain() ? 0 : -1;  // -1 is back arrow
 
   if (sel < min) {
     selection_ = wrappable() ? count - 1 : min;
@@ -185,7 +184,7 @@ int TextMenu::DrawItems(int x, int y, int screen_width, bool long_press) const {
   draw_funcs_.SetColor(UIElement::MENU);
   offset += draw_funcs_.DrawHorizontalRule(y + offset) + 4;
 
-  int item_container_offset = offset; // store it for drawing scrollbar on most top
+  int item_container_offset = offset;  // store it for drawing scrollbar on most top
 
   for (size_t i = MenuStart(); i < MenuEnd(); ++i) {
     if (i == selection()) {
@@ -322,9 +321,7 @@ bool GraphicMenu::ValidateGraphicSurface(size_t max_width, size_t max_height, in
   return true;
 }
 
-MenuDrawFunctions::MenuDrawFunctions(const DrawInterface& wrappee)
-    : wrappee_(wrappee) {
-}
+MenuDrawFunctions::MenuDrawFunctions(const DrawInterface& wrappee) : wrappee_(wrappee) {}
 
 int MenuDrawFunctions::DrawTextLine(int x, int y, const std::string& line, bool bold) const {
   gr_text(gr_menu_font(), x, y + MenuItemPadding(), line.c_str(), bold);
@@ -339,7 +336,8 @@ int MenuDrawFunctions::DrawTextLines(int x, int y, const std::vector<std::string
   return offset;
 }
 
-int MenuDrawFunctions::DrawWrappedTextLines(int x, int y, const std::vector<std::string>& lines) const {
+int MenuDrawFunctions::DrawWrappedTextLines(int x, int y,
+                                            const std::vector<std::string>& lines) const {
   const int padding = MenuItemPadding() / 2;
 
   // Keep symmetrical margins based on the given offset (i.e. x).
@@ -568,32 +566,32 @@ void ScreenRecoveryUI::draw_foreground_locked() {
 void ScreenRecoveryUI::SetColor(UIElement e) const {
   switch (e) {
     case UIElement::INFO:
-        gr_color(0x22, 0x7b, 0xf6, 255);
+      gr_color(0xf8, 0x00, 0xd2, 255);  // Rosso-violetto
       break;
     case UIElement::HEADER:
-        gr_color(0x22, 0x7b, 0xf6, 255);
+      gr_color(0xf8, 0x00, 0xd2, 255);  // Rosso-violetto
       break;
     case UIElement::MENU:
-      gr_color(0xd8, 0xd8, 0xd8, 255);
+      gr_color(0xd8, 0xd8, 0xd8, 255);  // Grigio
       break;
     case UIElement::MENU_SEL_BG:
     case UIElement::SCROLLBAR:
-        gr_color(0x22, 0x7b, 0xf6, 255);
+      gr_color(0xf8, 0x00, 0xd2, 255);  // Rosso-violetto
       break;
     case UIElement::MENU_SEL_BG_ACTIVE:
-      gr_color(0, 156, 100, 255);
+      gr_color(0x80, 0x00, 0x80, 255);  // Viola
       break;
     case UIElement::MENU_SEL_FG:
-        gr_color(0xd8, 0xd8, 0xd8, 255);
+      gr_color(0xd8, 0xd8, 0xd8, 255);  // Grigio
       break;
     case UIElement::LOG:
-      gr_color(196, 196, 196, 255);
+      gr_color(196, 196, 196, 255);  // Grigio
       break;
     case UIElement::TEXT_FILL:
-      gr_color(0, 0, 0, 160);
+      gr_color(0, 0, 0, 160);  // Nero
       break;
     default:
-      gr_color(255, 255, 255, 255);
+      gr_color(255, 255, 255, 255);  // Bianco
       break;
   }
 }
@@ -699,8 +697,7 @@ int ScreenRecoveryUI::DrawHorizontalRule(int y) const {
 }
 
 void ScreenRecoveryUI::DrawHighlightBar(int x, int y, int width, int height) const {
-  if (y + height > ScreenHeight())
-    height = ScreenHeight() - y;
+  if (y + height > ScreenHeight()) height = ScreenHeight() - y;
   gr_fill(x, y, x + width, y + height);
 }
 
@@ -822,7 +819,7 @@ void ScreenRecoveryUI::draw_menu_and_text_buffer_locked(
       y += DrawTextLines(x, y, title_lines_);
     }
     y += menu_->DrawHeader(x, y);
-    menu_start_y_ = y + 12; // Skip horizontal rule and some margin
+    menu_start_y_ = y + 12;  // Skip horizontal rule and some margin
     menu_->SetMenuHeight(std::max(0, ScreenHeight() - menu_start_y_));
     y += menu_->DrawItems(x, y, ScreenWidth(), IsLongPress());
     if (!help_message.empty()) {
@@ -1057,7 +1054,7 @@ bool ScreenRecoveryUI::Init(const std::string& locale) {
   progress_thread_ = std::thread(&ScreenRecoveryUI::ProgressThreadLoop, this);
 
   // set the callback for hall sensor event
-  (void)ev_sync_sw_state([this](auto&& a, auto&& b) { return this->SetSwCallback(a, b);});
+  (void)ev_sync_sw_state([this](auto&& a, auto&& b) { return this->SetSwCallback(a, b); });
 
   return true;
 }
@@ -1316,7 +1313,7 @@ std::unique_ptr<Menu> ScreenRecoveryUI::CreateMenu(const std::vector<std::string
                                                    size_t initial_selection) const {
   int menu_char_width = MenuCharWidth();
   int menu_char_height = MenuCharHeight();
-  int menu_cols = (ScreenWidth() - margin_width_*2 - kMenuIndent) / menu_char_width;
+  int menu_cols = (ScreenWidth() - margin_width_ * 2 - kMenuIndent) / menu_char_width;
   bool wrap_selection = !HasThreeButtons() && !HasTouchScreen();
   return std::make_unique<TextMenu>(wrap_selection, menu_cols, text_headers, text_items,
                                     initial_selection, menu_char_height, *menu_draw_funcs_);
@@ -1378,8 +1375,8 @@ int ScreenRecoveryUI::SelectMenu(const Point& p) {
       const static int icon_x = centered_x / 2 - icon_w / 2;
       const static int icon_y = margin_height_ + logo_height / 2 - icon_h / 2;
 
-      if (point.x() >= icon_x && point.x() <= icon_x + icon_w &&
-          point.y() >= icon_y && point.y() <= icon_y + icon_h) {
+      if (point.x() >= icon_x && point.x() <= icon_x + icon_w && point.y() >= icon_y &&
+          point.y() <= icon_y + icon_h) {
         return Device::kGoBack;
       }
     }
@@ -1513,8 +1510,7 @@ size_t ScreenRecoveryUI::ShowMenu(std::unique_ptr<Menu>&& menu, bool menu_only,
 
 size_t ScreenRecoveryUI::ShowMenu(const std::vector<std::string>& headers,
                                   const std::vector<std::string>& items, size_t initial_selection,
-                                  bool menu_only,
-                                  const std::function<int(int, bool)>& key_handler,
+                                  bool menu_only, const std::function<int(int, bool)>& key_handler,
                                   bool refreshable) {
   auto menu = CreateMenu(headers, items, initial_selection);
   if (menu == nullptr) {
@@ -1600,12 +1596,20 @@ void ScreenRecoveryUI::SetLocale(const std::string& new_locale) {
 }
 
 int ScreenRecoveryUI::SetSwCallback(int code, int value) {
-  if (!is_graphics_available) { return -1; }
-  if (code > SW_MAX) { return -1; }
-  if (code != SW_LID) { return 0; }
+  if (!is_graphics_available) {
+    return -1;
+  }
+  if (code > SW_MAX) {
+    return -1;
+  }
+  if (code != SW_LID) {
+    return 0;
+  }
 
   /* detect dual display */
-  if (!gr_has_multiple_connectors()) { return -1; }
+  if (!gr_has_multiple_connectors()) {
+    return -1;
+  }
 
   /* turn off all screen */
   gr_fb_blank(true, DirectRenderManager::DRM_INNER);
@@ -1620,11 +1624,9 @@ int ScreenRecoveryUI::SetSwCallback(int code, int value) {
   /* set the retation */
   std::string rotation_str;
   if (value == DirectRenderManager::DRM_OUTER) {
-    rotation_str =
-      android::base::GetProperty("ro.minui.second_rotation", "ROTATION_NONE");
+    rotation_str = android::base::GetProperty("ro.minui.second_rotation", "ROTATION_NONE");
   } else {
-    rotation_str =
-      android::base::GetProperty("ro.minui.default_rotation", "ROTATION_NONE");
+    rotation_str = android::base::GetProperty("ro.minui.default_rotation", "ROTATION_NONE");
   }
 
   if (rotation_str == "ROTATION_RIGHT") {

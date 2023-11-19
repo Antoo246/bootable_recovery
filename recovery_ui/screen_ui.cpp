@@ -564,36 +564,35 @@ void ScreenRecoveryUI::draw_foreground_locked() {
   }
 }
 
-/* pixel blue: #227BF6 */
 void ScreenRecoveryUI::SetColor(UIElement e) const {
   switch (e) {
     case UIElement::INFO:
-        gr_color(0x22, 0x7b, 0xf6, 255);
+      gr_color(201,40,187,255);  
       break;
     case UIElement::HEADER:
-        gr_color(0x22, 0x7b, 0xf6, 255);
+      gr_color(201,40,187,255);  
       break;
     case UIElement::MENU:
-      gr_color(0xd8, 0xd8, 0xd8, 255);
+      gr_color(0xd8, 0xd8, 0xd8, 255);  
       break;
     case UIElement::MENU_SEL_BG:
     case UIElement::SCROLLBAR:
-        gr_color(0x22, 0x7b, 0xf6, 255);
+      gr_color(201,40,187,255);  
       break;
     case UIElement::MENU_SEL_BG_ACTIVE:
-      gr_color(0, 156, 100, 255);
+      gr_color(0x80, 0x00, 0x80, 255);  
       break;
     case UIElement::MENU_SEL_FG:
-        gr_color(0xd8, 0xd8, 0xd8, 255);
+      gr_color(0xd8, 0xd8, 0xd8, 255);  
       break;
     case UIElement::LOG:
-      gr_color(196, 196, 196, 255);
+      gr_color(196, 196, 196, 255);  
       break;
     case UIElement::TEXT_FILL:
-      gr_color(0, 0, 0, 160);
+      gr_color(0, 0, 0, 160); 
       break;
     default:
-      gr_color(255, 255, 255, 255);
+      gr_color(255, 255, 255, 255);  
       break;
   }
 }

@@ -477,6 +477,12 @@ int main(int argc, char** argv) {
     device->RemoveMenuItemForAction(Device::ENTER_FASTBOOT);
   }
 
+  if (get_build_type() != "eng") {
+  }
+
+  if (get_build_type() == "user") {
+  }
+
   ui->SetBackground(RecoveryUI::NONE);
   if (show_text) ui->ShowText(true);
 
